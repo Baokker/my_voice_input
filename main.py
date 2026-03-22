@@ -8,6 +8,7 @@ import sys
 from config import VOLC_APP_ID, VOLC_ACCESS_KEY, DEEPSEEK_API_KEY
 from hotkey_listener import HotkeyListener
 from formatter import format_smart
+from transcriber import warmup
 
 
 def check_accessibility():
@@ -48,6 +49,7 @@ def check_config():
 def main():
     check_accessibility()
     check_config()
+    warmup()  # 后台预热 WebSocket 连接，降低首次转录延迟
     if not DEEPSEEK_API_KEY:
         print("[提示] 未配置 DEEPSEEK_API_KEY，右 Command 智能整理功能不可用。")
         formatter = None

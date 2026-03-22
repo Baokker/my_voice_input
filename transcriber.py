@@ -32,6 +32,38 @@ def transcribe(audio_bytes: bytes) -> str:
     return _transcribe_volcengine(audio_bytes)
 
 
+def warmup():
+    """后台建立一次 WebSocket 握手，预热 TCP/TLS 和 DNS 缓存，降低首次转录延迟。"""
+    threading.Thread(target=_do_warmup, daemon=True).start()
+
+
+def _do_warmup():
+    done = threading.Event()
+
+    def on_open(ws):
+        ws.close()
+        done.set()
+
+    def on_error(ws, e):
+        done.set()
+
+    def on_close(ws, *a):
+        done.set()
+
+    headers = {
+        "X-Api-App-Key":     VOLC_APP_ID,
+        "X-Api-Access-Key":  VOLC_ACCESS_KEY,
+        "X-Api-Resource-Id": VOLC_RESOURCE_ID,
+        "X-Api-Connect-Id":  str(uuid.uuid4()),
+    }
+    ws = websocket.WebSocketApp(
+        VOLC_WS_URL, header=headers,
+        on_open=on_open, on_error=on_error, on_close=on_close,
+    )
+    threading.Thread(target=ws.run_forever, kwargs={"ping_interval": 0}, daemon=True).start()
+    done.wait(timeout=5)
+
+
 def _volc_build_frame(byte1: int, byte2: int, seq: int, payload: bytes) -> bytes:
     """拼装带 sequence number 的帧：4字节头 + 4字节 seq（有符号）+ 4字节长度 + payload。"""
     header = bytes([0x11, byte1, byte2, 0x00])
