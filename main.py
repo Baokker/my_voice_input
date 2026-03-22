@@ -5,8 +5,9 @@ macOS 语音输入工具
 """
 
 import sys
-from config import XFYUN_APPID, XFYUN_API_KEY, XFYUN_API_SECRET, STT_BACKEND
+from config import XFYUN_APPID, XFYUN_API_KEY, XFYUN_API_SECRET, STT_BACKEND, DEEPSEEK_API_KEY
 from hotkey_listener import HotkeyListener
+from formatter import format_smart
 
 
 def check_accessibility():
@@ -50,7 +51,12 @@ def check_config():
 def main():
     check_accessibility()
     check_config()
-    listener = HotkeyListener()
+    if not DEEPSEEK_API_KEY:
+        print("[提示] 未配置 DEEPSEEK_API_KEY，右 Option + Space 智能整理功能不可用。")
+        formatter = None
+    else:
+        formatter = format_smart
+    listener = HotkeyListener(formatter=formatter)
     try:
         listener.start()
     except KeyboardInterrupt:

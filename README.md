@@ -4,9 +4,13 @@ macOS 语音输入工具，按住右 Option 键说话，松开后自动转录并
 
 ## 功能
 
-- **按住右 Option**：开始录音
-- **松开右 Option**：停止录音，转录，自动粘贴到光标位置
+| 操作 | 效果 |
+|------|------|
+| 按住右 Option，说话，松开 | 转录，粘贴到光标位置 |
+| 按住右 Option + Space，说话，松开 | 转录 + DeepSeek 智能整理，输出结构化 Markdown |
+
 - 支持两种转录后端：讯飞实时语音转写大模型（联网）/ 本地 faster-whisper（离线）
+- 录音开始/结束有系统提示音（Pop / Tink）
 
 ## 环境要求
 
@@ -52,7 +56,7 @@ XFYUN_API_SECRET=你的APISecret（accessKeySecret）
 | 输入监控 | 系统设置 → 隐私与安全性 → 输入监控 | 监听右 Option 按键 |
 | 辅助功能 | 系统设置 → 隐私与安全性 → 辅助功能 | 模拟 Cmd+V 粘贴文字 |
 
-将你的终端（Terminal / iTerm2）加入上述两个列表并勾选。
+将你的终端（Terminal / iTerm2 / VS Code）加入上述两个列表并勾选。
 
 ## 运行
 

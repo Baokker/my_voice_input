@@ -8,6 +8,7 @@ XFYUN_API_KEY = os.getenv("XFYUN_API_KEY", "")
 XFYUN_API_SECRET = os.getenv("XFYUN_API_SECRET", "")
 
 DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY", "")
+DEEPSEEK_MODEL   = os.getenv("DEEPSEEK_MODEL", "deepseek-chat")
 
 STT_BACKEND = os.getenv("STT_BACKEND", "xfyun")   # "xfyun" or "whisper"
 WHISPER_MODEL = os.getenv("WHISPER_MODEL", "turbo")  # tiny/base/small/medium/turbo/large-v3

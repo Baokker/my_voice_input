@@ -1,9 +1,9 @@
 """
 热键监听模块
 监听右 Option 键（alt_r）：
-  - 按下右 Option：开始录音
-  - 松开右 Option：停止录音，触发转录+注入
-  - 按下右 Option + Space（同时）：触发智能整理模式
+  - 按住右 Option：开始录音
+  - 松开右 Option：停止录音，转录，注入文字（普通模式）
+  - 按住右 Option + Space（录音期间同时按住 Space）：转录后智能整理（结构化 Markdown）
 无需 Karabiner，不影响 Fn 键原有功能。
 """
 
