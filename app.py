@@ -14,7 +14,6 @@ from config import VOLC_APP_ID, VOLC_ACCESS_KEY, DEEPSEEK_API_KEY
 from hotkey_listener import HotkeyListener
 from formatter import format_smart
 from transcriber import warmup
-from main import check_accessibility, check_config
 
 # 菜单栏状态图标
 # \uFE0E = 文本变体选择符，强制用文字模式渲染，避免彩色 emoji 缩小后失真
@@ -85,7 +84,42 @@ class VoiceInputApp(rumps.App):
         rumps.quit_application()
 
 
+def _is_accessibility_trusted() -> bool:
+    try:
+        import ctypes
+        lib = ctypes.cdll.LoadLibrary(
+            "/System/Library/Frameworks/ApplicationServices.framework/ApplicationServices"
+        )
+        lib.AXIsProcessTrusted.restype = ctypes.c_bool
+        return lib.AXIsProcessTrusted()
+    except Exception:
+        return True  # 无法检测时放行
+
+
 if __name__ == "__main__":
-    check_accessibility()
-    check_config()
+    # 配置检查：缺少 API Key 时弹窗后退出
+    if not VOLC_APP_ID or not VOLC_ACCESS_KEY:
+        rumps.alert(
+            title="配置缺失",
+            message=(
+                "未找到火山引擎 API 配置。\n\n"
+                "请确认 .env 文件存在并包含：\n"
+                "  VOLC_APP_ID\n"
+                "  VOLC_ACCESS_KEY"
+            ),
+        )
+        sys.exit(1)
+
+    # 辅助功能检查：未授权时弹窗提示，但不退出（图标仍可出现，方便用户去授权）
+    if not _is_accessibility_trusted():
+        rumps.alert(
+            title="需要辅助功能权限",
+            message=(
+                "文字注入功能需要辅助功能权限。\n\n"
+                "请前往：系统设置 → 隐私与安全性 → 辅助功能\n"
+                "将 VoiceInput 加入列表并勾选，然后重新启动应用。\n\n"
+                "同时请确认已授予【输入监控】和【麦克风】权限。"
+            ),
+        )
+
     VoiceInputApp().run()
