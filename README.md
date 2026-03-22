@@ -7,9 +7,9 @@ macOS 语音输入工具，按住右 Option 键说话，松开后自动转录并
 | 操作 | 效果 |
 |------|------|
 | 按住右 Option，说话，松开 | 转录，粘贴到光标位置 |
-| 按住右 Option + Space，说话，松开 | 转录 + DeepSeek 智能整理，输出结构化 Markdown |
+| 按住右 Command，说话，松开 | 转录 + DeepSeek 智能整理，输出结构化文字 |
 
-- 支持两种转录后端：讯飞实时语音转写大模型（联网）/ 本地 faster-whisper（离线）
+- 转录后端：火山引擎豆包 ASR（bigmodel_nostream，高精度）
 - 录音开始/结束有系统提示音（Pop / Tink）
 
 ## 环境要求
@@ -25,27 +25,26 @@ macOS 语音输入工具，按住右 Option 键说话，松开后自动转录并
 pip3 install -r requirements.txt
 ```
 
-如需使用本地 Whisper：
-
-```bash
-pip3 install faster-whisper
-```
-
 **2. 配置 API Key**
 
 ```bash
 cp .env.example .env
 ```
 
-用编辑器打开 `.env`，填入讯飞 API 信息：
+用编辑器打开 `.env`，填入火山引擎 ASR 信息：
 
 ```
-XFYUN_APPID=你的AppID
-XFYUN_API_KEY=你的APIKey（accessKeyId）
-XFYUN_API_SECRET=你的APISecret（accessKeySecret）
+VOLC_APP_ID=你的AppID
+VOLC_ACCESS_KEY=你的AccessKey
 ```
 
-在[讯飞控制台](https://console.xfyun.cn/) → 你的应用 → **实时语音转写大模型** 中获取。
+在[火山引擎控制台](https://console.volcengine.com/speech) → 语音识别 → 创建应用后获取。
+
+如需使用右 Command 智能整理功能，还需填写：
+
+```
+DEEPSEEK_API_KEY=你的DeepSeekKey
+```
 
 **3. 授予 macOS 权限（必须）**
 
@@ -53,7 +52,7 @@ XFYUN_API_SECRET=你的APISecret（accessKeySecret）
 
 | 权限 | 位置 | 用途 |
 |------|------|------|
-| 输入监控 | 系统设置 → 隐私与安全性 → 输入监控 | 监听右 Option 按键 |
+| 输入监控 | 系统设置 → 隐私与安全性 → 输入监控 | 监听右 Option / 右 Command 按键 |
 | 辅助功能 | 系统设置 → 隐私与安全性 → 辅助功能 | 模拟 Cmd+V 粘贴文字 |
 
 将你的终端（Terminal / iTerm2 / VS Code）加入上述两个列表并勾选。
@@ -64,24 +63,14 @@ XFYUN_API_SECRET=你的APISecret（accessKeySecret）
 python3 main.py
 ```
 
-## 切换到本地 Whisper（离线模式）
-
-在 `.env` 中设置：
-
-```
-STT_BACKEND=whisper
-WHISPER_MODEL=turbo   # 推荐，~1.6GB，中文质量好；可选 tiny/base/small/medium/large-v3
-```
-
-首次运行会自动下载模型文件。
-
 ## 文件结构
 
 ```
 ├── main.py              # 入口
-├── hotkey_listener.py   # 右 Option 键监听，串联录音→转录→注入
+├── hotkey_listener.py   # 右 Option / 右 Command 监听，串联录音→转录→注入
 ├── recorder.py          # 麦克风录音（sounddevice）
-├── transcriber.py       # 语音转录（讯飞 API / 本地 Whisper）
+├── transcriber.py       # 语音转录（火山引擎豆包 ASR）
+├── formatter.py         # LLM 后处理（DeepSeek，智能整理模式）
 ├── text_injector.py     # 文字注入（pbcopy + pynput Cmd+V）
 ├── config.py            # 配置加载
 ├── requirements.txt     # 依赖清单
