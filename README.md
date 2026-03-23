@@ -1,98 +1,105 @@
-# my-voice-input
+# PressTalk
 
-macOS 语音输入工具，按住右 Option 键说话，松开后自动转录并输入到当前光标位置。
+PressTalk 是一个原生 macOS 菜单栏语音输入工具。按住右 `Option` 说话，松开后自动转录并输入到当前光标位置；按住右 `Command` 时，会在转录后再经过 DeepSeek 做轻量整理。
 
-## 功能
+## 核心能力
 
 | 操作 | 效果 |
 |------|------|
-| 按住右 Option，说话，松开 | 转录，粘贴到光标位置 |
-| 按住右 Command，说话，松开 | 转录 + DeepSeek 智能整理，输出结构化文字 |
+| 按住右 `Option`，说话，松开 | 转录并输入文字 |
+| 按住右 `Command`，说话，松开 | 转录 + 智能整理后输入 |
 
-- 转录后端：火山引擎豆包 ASR（bigmodel_nostream，高精度）
-- 菜单栏实时状态图标：● 待机 / ◉ 录音中 / ◌ 转录中 / ✓ 完成
+- 转录后端：火山引擎豆包 ASR `bigmodel_nostream`
+- 形态：原生 Swift 菜单栏 App
+- 状态图标：`●` 待机 / `◉` 录音中 / `◌` 转录中 / `✓` 完成
 
-## 环境要求
+## 推荐使用方式
 
-- macOS（已在 Apple Silicon 上测试）
-- Python 3.9+
+最顺手的流程是：
 
-## 安装
+1. 用 Xcode 构建出 `PressTalk.app`
+2. 把 `PressTalk.app` 拖到 `/Applications`
+3. 从 `/Applications/PressTalk.app` 启动
+4. 填写 API Key
+5. 授予辅助功能、输入监控、麦克风权限
 
-**1. 安装依赖**
+这样授权会绑定到固定路径，后续使用最稳定。
 
-```bash
-pip3 install -r requirements.txt
-```
+## 注意：从 VoiceInput 升级到 PressTalk
 
-**2. 配置 API Key**
+`PressTalk` 是新的 App 身份，不会继承旧版 `VoiceInput` 的辅助功能和输入监控权限。
 
-方式一（推荐）：启动后点击菜单栏图标 → **设置**，在设置窗口中填写并保存。
+升级后请重新为 `PressTalk.app` 授权：
 
-方式二：手动编辑 `.env` 文件：
+- 辅助功能：系统设置 → 隐私与安全性 → 辅助功能
+- 输入监控：系统设置 → 隐私与安全性 → 输入监控
+- 麦克风：系统设置 → 隐私与安全性 → 麦克风
 
-```bash
-cp .env.example .env
-```
+如果你已经在系统里完成授权，但界面仍未立刻更新，先回到 App 看状态是否自动刷新；如果仍未更新，退出并重新打开 `PressTalk.app`。
 
-填入火山引擎 ASR 信息（App ID 和 Access Key 可在[语音识别控制台](https://console.volcengine.com/speech/service/10038)获取）：
+## 配置
 
-```
-VOLC_APP_ID=你的AppID
-VOLC_ACCESS_KEY=你的AccessKey
-```
+首次启动后，打开菜单栏中的“设置…”，填写：
 
-如需使用右 Command 智能整理功能，还需填写：
+- 火山引擎 `App ID`
+- 火山引擎 `Access Key`
+- DeepSeek API Key（可选）
 
-```
-DEEPSEEK_API_KEY=你的DeepSeekKey
-```
+获取地址：
 
-**3. 授予 macOS 权限（必须）**
+- 火山引擎语音识别控制台：https://console.volcengine.com/speech/service/10038
+- DeepSeek API Keys：https://platform.deepseek.com/api_keys
 
-程序需要两个系统权限：
+## 构建
 
-| 权限 | 位置 | 用途 |
-|------|------|------|
-| 输入监控 | 系统设置 → 隐私与安全性 → 输入监控 | 监听右 Option / 右 Command 按键 |
-| 辅助功能 | 系统设置 → 隐私与安全性 → 辅助功能 | 模拟 Cmd+V 粘贴文字 |
+### Xcode
 
-将你的终端（Terminal / iTerm2 / VS Code）加入上述两个列表并勾选。
+直接打开 [PressTalk.xcodeproj](/Users/baokker/Work/vibe_coding_projects/my_voice_input_swift/PressTalk.xcodeproj) 并运行 `PressTalk` scheme。
 
-> **提示**：启动后可通过菜单栏 → **设置** 查看三个权限的当前状态，并一键跳转系统设置页面完成授权。
-
-## 运行
-
-**推荐：菜单栏模式**（常驻后台，有状态图标）
+### 命令行构建
 
 ```bash
-python3 app.py
+xcodebuild -project PressTalk.xcodeproj \
+  -scheme PressTalk \
+  -configuration Release \
+  -derivedDataPath /tmp/PressTalkDerived \
+  build CODE_SIGNING_ALLOWED=NO
 ```
 
-**备用：纯 CLI 模式**
+构建产物：
 
 ```bash
-python3 main.py
+/tmp/PressTalkDerived/Build/Products/Release/PressTalk.app
 ```
 
-**单独打开设置窗口**
+打包未签名发布版：
 
 ```bash
-python3 settings_window.py
+ditto -c -k --sequesterRsrc --keepParent \
+  /tmp/PressTalkDerived/Build/Products/Release/PressTalk.app \
+  PressTalk-release.zip
 ```
 
-## 文件结构
+首次在其他机器运行未签名版本时，可能需要右键打开；如果被隔离属性阻止，可执行：
+
+```bash
+xattr -dr com.apple.quarantine PressTalk.app
+```
+
+## 仓库结构
 
 ```
-├── app.py               # 菜单栏入口（推荐）
-├── main.py              # CLI 入口（备用）
-├── settings_window.py   # 可视化设置窗口（API Key + 权限状态）
-├── hotkey_listener.py   # 右 Option / 右 Command 监听，串联录音→转录→注入
-├── recorder.py          # 麦克风录音（sounddevice）
-├── transcriber.py       # 语音转录（火山引擎豆包 ASR）
-├── formatter.py         # LLM 后处理（DeepSeek，智能整理模式）
-├── text_injector.py     # 文字注入（pbcopy + CGEvent Cmd+V）
-├── config.py            # 配置加载
-├── requirements.txt     # 依赖清单
-└── .env.example         # 环境变量模板
+.
+├── PressTalk.xcodeproj
+├── PressTalk
+│   ├── PressTalkApp.swift
+│   ├── AppDelegate.swift
+│   ├── AppState.swift
+│   ├── Services
+│   ├── UI
+│   ├── Helpers
+│   ├── Info.plist
+│   └── PressTalk.entitlements
+├── README.md
+└── ROADMAP.md
 ```

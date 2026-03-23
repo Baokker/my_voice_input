@@ -1,0 +1,295 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A10001 /* PressTalkApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10001; };
+		A10002 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10002; };
+		A10003 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10003; };
+		A10004 /* GzipHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10004; };
+		A10005 /* PermissionChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10005; };
+		A10006 /* AudioRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10006; };
+		A10007 /* DeepSeekFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10007; };
+		A10008 /* HotkeyMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10008; };
+		A10009 /* TextInjector.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10009; };
+		A10010 /* VolcanoTranscriber.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10010; };
+		A10011 /* StatusBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10011; };
+		A10012 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10012; };
+		A10013 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B10015; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		B10001 /* PressTalkApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PressTalkApp.swift; sourceTree = "<group>"; };
+		B10002 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		B10003 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		B10004 /* GzipHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GzipHelper.swift; sourceTree = "<group>"; };
+		B10005 /* PermissionChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionChecker.swift; sourceTree = "<group>"; };
+		B10006 /* AudioRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRecorder.swift; sourceTree = "<group>"; };
+		B10007 /* DeepSeekFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepSeekFormatter.swift; sourceTree = "<group>"; };
+		B10008 /* HotkeyMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotkeyMonitor.swift; sourceTree = "<group>"; };
+		B10009 /* TextInjector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInjector.swift; sourceTree = "<group>"; };
+		B10010 /* VolcanoTranscriber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolcanoTranscriber.swift; sourceTree = "<group>"; };
+		B10011 /* StatusBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarController.swift; sourceTree = "<group>"; };
+		B10012 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		B10013 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B10014 /* PressTalk.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PressTalk.entitlements; sourceTree = "<group>"; };
+		B10015 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C10001 /* PressTalk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PressTalk.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D10001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E10001 = {
+			isa = PBXGroup;
+			children = (
+				E10002 /* PressTalk */,
+				E10006 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E10002 /* PressTalk */ = {
+			isa = PBXGroup;
+			children = (
+				B10001 /* PressTalkApp.swift */,
+				B10002 /* AppDelegate.swift */,
+				B10003 /* AppState.swift */,
+				E10003 /* Services */,
+				E10004 /* UI */,
+				E10005 /* Helpers */,
+				B10015 /* Assets.xcassets */,
+				B10013 /* Info.plist */,
+				B10014 /* PressTalk.entitlements */,
+			);
+			path = PressTalk;
+			sourceTree = "<group>";
+		};
+		E10003 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B10006 /* AudioRecorder.swift */,
+				B10007 /* DeepSeekFormatter.swift */,
+				B10008 /* HotkeyMonitor.swift */,
+				B10009 /* TextInjector.swift */,
+				B10010 /* VolcanoTranscriber.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		E10004 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				B10011 /* StatusBarController.swift */,
+				B10012 /* SettingsView.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		E10005 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				B10004 /* GzipHelper.swift */,
+				B10005 /* PermissionChecker.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		E10006 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C10001 /* PressTalk.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F10001 /* PressTalk */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = G10003;
+			buildPhases = (
+				F10002 /* Sources */,
+				D10001 /* Frameworks */,
+				F10003 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PressTalk;
+			productName = PressTalk;
+			productReference = C10001 /* PressTalk.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		H10001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+			};
+			buildConfigurationList = G10001;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = zh;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				zh,
+				en,
+				Base,
+			);
+			mainGroup = E10001;
+			productRefGroup = E10006 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F10001 /* PressTalk */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F10003 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10013 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F10002 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10001 /* PressTalkApp.swift in Sources */,
+				A10002 /* AppDelegate.swift in Sources */,
+				A10003 /* AppState.swift in Sources */,
+				A10004 /* GzipHelper.swift in Sources */,
+				A10005 /* PermissionChecker.swift in Sources */,
+				A10006 /* AudioRecorder.swift in Sources */,
+				A10007 /* DeepSeekFormatter.swift in Sources */,
+				A10008 /* HotkeyMonitor.swift in Sources */,
+				A10009 /* TextInjector.swift in Sources */,
+				A10010 /* VolcanoTranscriber.swift in Sources */,
+				A10011 /* StatusBarController.swift in Sources */,
+				A10012 /* SettingsView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		G10002 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		G10004 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		G10005 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = PressTalk/PressTalk.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = PressTalk/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.presstalk.app;
+				PRODUCT_NAME = PressTalk;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		G10006 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = PressTalk/PressTalk.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = PressTalk/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.presstalk.app;
+				PRODUCT_NAME = PressTalk;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		G10001 /* Build configuration list for PBXProject "PressTalk" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				G10002 /* Debug */,
+				G10004 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		G10003 /* Build configuration list for PBXNativeTarget "PressTalk" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				G10005 /* Debug */,
+				G10006 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+	};
+	rootObject = H10001 /* Project object */;
+}

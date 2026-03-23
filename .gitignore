@@ -1,8 +1,8 @@
-.env
-__pycache__/
-*.pyc
-*.pyo
 .DS_Store
-.venv_build/
 build/
-dist/
+DerivedData/
+*.dSYM
+*.dSYM.zip
+*.xcuserstate
+xcuserdata/
+PressTalk-release.zip
