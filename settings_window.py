@@ -168,19 +168,36 @@ def _build_window(root: tk.Tk):
     tk.Label(root, text="权限状态", font=("", 13, "bold")).grid(
         row=5, column=0, columnspan=3, sticky="w", padx=12, pady=(12, 2))
 
-    perms = [
-        ("辅助功能", _check_accessibility(),    "辅助功能"),
-        ("输入监控", _check_input_monitoring(), "输入监控"),
-        ("麦克风",   _check_microphone(),       "麦克风"),
+    _perm_defs = [
+        ("辅助功能", _check_accessibility,    "辅助功能"),
+        ("输入监控", _check_input_monitoring, "输入监控"),
+        ("麦克风",   _check_microphone,       "麦克风"),
     ]
-    for i, (name, status, url_key) in enumerate(perms):
+    _status_vars = []   # tk.StringVar for each permission
+    _status_labels = [] # tk.Label for color updates
+
+    for i, (name, _, url_key) in enumerate(_perm_defs):
         row = 6 + i
+        var = tk.StringVar(value="检测中…")
+        _status_vars.append(var)
         tk.Label(root, text=f"{name}:").grid(row=row, column=0, sticky="e", **pad)
-        color = "green" if status.startswith("✓") else ("red" if status.startswith("✗") else "orange")
-        tk.Label(root, text=status, fg=color).grid(row=row, column=1, sticky="w", **pad)
+        lbl = tk.Label(root, textvariable=var, fg="gray")
+        lbl.grid(row=row, column=1, sticky="w", **pad)
+        _status_labels.append(lbl)
         tk.Button(root, text="前往系统设置",
-                  command=lambda u=_PERM_URLS[url_key]: subprocess.run(["open", u], check=False)
-                  ).grid(row=row, column=2, **pad)
+                  command=lambda u=_PERM_URLS[url_key]: (
+                      subprocess.run(["open", u], check=False),
+                      root.after(3000, _refresh_perms),  # 3秒后自动刷新，等用户完成授权
+                  )).grid(row=row, column=2, **pad)
+
+    def _refresh_perms():
+        for var, lbl, (_, check_fn, _) in zip(_status_vars, _status_labels, _perm_defs):
+            status = check_fn()
+            var.set(status)
+            lbl.config(fg="green" if status.startswith("✓") else
+                          ("red" if status.startswith("✗") else "orange"))
+
+    root.after(100, _refresh_perms)  # 窗口显示后异步初始化，避免阻塞
 
     # ── 使用说明 ──────────────────────────────────────────────────────────────
     tk.Label(root, text="使用说明", font=("", 13, "bold")).grid(
@@ -228,8 +245,9 @@ def _build_window(root: tk.Tk):
 
     btn_test = tk.Button(btn_frame, text="测试连接", width=12, command=_test)
     btn_test.pack(side="left", padx=8)
-    tk.Button(btn_frame, text="保存", width=12, command=_save).pack(side="left", padx=8)
-    tk.Button(btn_frame, text="关闭", width=12, command=root.destroy).pack(side="left", padx=8)
+    tk.Button(btn_frame, text="刷新权限", width=10, command=_refresh_perms).pack(side="left", padx=8)
+    tk.Button(btn_frame, text="保存", width=10, command=_save).pack(side="left", padx=8)
+    tk.Button(btn_frame, text="关闭", width=10, command=root.destroy).pack(side="left", padx=8)
 
 
 if __name__ == "__main__":

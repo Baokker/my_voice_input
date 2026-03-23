@@ -127,20 +127,7 @@ def _is_accessibility_trusted() -> bool:
 
 
 if __name__ == "__main__":
-    # 辅助功能检查：未授权时弹窗提示，附带跳转按钮
     if not _is_accessibility_trusted():
-        response = rumps.alert(
-            title="需要辅助功能权限",
-            message=(
-                "文字注入功能需要辅助功能权限。\n\n"
-                "请点击「前往授权」跳转到系统设置，\n"
-                "将 VoiceInput 加入列表并勾选，然后重新启动应用。\n\n"
-                "同时请确认已授予【输入监控】和【麦克风】权限。"
-            ),
-            ok="前往授权",
-            cancel="稍后再说",
-        )
-        if response == 1:  # OK button
-            _open_pref(_PERM_URLS["辅助功能"])
-
+        print("[提示] 辅助功能权限未授权，文字注入可能不工作。"
+              "请点击菜单栏「权限设置」或打开「设置」页面进行授权。")
     VoiceInputApp().run()

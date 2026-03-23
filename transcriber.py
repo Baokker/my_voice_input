@@ -155,6 +155,11 @@ def _transcribe_volcengine(pcm_bytes: bytes) -> str:
             done_event.set()
 
     def on_error(ws, error):
+        # opcode=8 是服务端在转录结束后发出的正常 Close frame，不是真实错误；
+        # 某些版本的 websocket-client 把它路由到 on_error 而非 on_close，过滤掉。
+        if "opcode=8" in str(error):
+            done_event.set()
+            return
         error_holder.append(str(error))
         done_event.set()
 
@@ -186,10 +191,12 @@ def _transcribe_volcengine(pcm_bytes: bytes) -> str:
     done_event.wait(timeout=30)
     ws_app.close()
 
+    # 有转录结果时优先返回，忽略可能伴随的 close-frame 伪错误（双重保险）
+    if result_holder:
+        return result_holder[0].strip()
     if error_holder:
         raise RuntimeError(f"火山引擎 STT 错误: {error_holder[0]}")
-
-    return result_holder[0].strip() if result_holder else ""
+    return ""
 
 
 def _volc_send_audio(ws, pcm_bytes: bytes):
