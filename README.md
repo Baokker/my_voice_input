@@ -2,6 +2,10 @@
 
 PressTalk 是一个原生 macOS 菜单栏语音输入工具。按住右 `Option` 说话，松开后自动转录并输入到当前光标位置；按住右 `Command` 时，会在转录后再经过 DeepSeek 做轻量整理。
 
+![](assets/2026-03-24-10-01-41.png)
+
+![](assets/2026-03-24-10-02-44.png)
+
 ## 核心能力
 
 | 操作 | 效果 |
@@ -103,3 +107,11 @@ xattr -dr com.apple.quarantine PressTalk.app
 ├── README.md
 └── ROADMAP.md
 ```
+
+# TODO
+
+目前发现最后的测试连接功能还有一点小问题，有空再修复
+
+# 相关博客
+
+后面会写一篇博客，讲讲 Vibe Coding 这个项目的动机和心得，但是现在先拖着。
